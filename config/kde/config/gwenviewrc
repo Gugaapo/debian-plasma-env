@@ -1,0 +1,11 @@
+[FullScreen]
+FullScreenModeActive=true
+
+[General]
+LastUsedVersion=210800
+
+[MainWindow]
+MenuBar=Disabled
+
+[SideBar]
+InformationSplitterSizes=0,0

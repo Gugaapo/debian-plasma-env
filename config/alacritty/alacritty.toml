@@ -1,0 +1,74 @@
+[colors.primary]
+background = "#1f2430"
+foreground = "#cbccc6"
+bright_foreground = "#f28779"
+
+[colors.normal]
+black   = "#212733"
+red     = "#f08778"
+green   = "#53bf97"
+yellow  = "#fdcc60"
+blue    = "#60b8d6"
+magenta = "#ec7171"
+cyan    = "#98e6ca"
+white   = "#fafafa"
+
+[colors.bright]
+black   = "#686868"
+red     = "#f58c7d"
+green   = "#58c49c"
+yellow  = "#ffd165"
+blue    = "#65bddb"
+magenta = "#f17676"
+cyan    = "#9debcf"
+white   = "#ffffff"
+
+
+[window]
+padding = { x = 10, y = 0 }        # inner margin
+dynamic_padding = true             # adjust padding when resizing
+decorations = "Full"               # None | Full | Transparent | Buttonless
+startup_mode = "Fullscreen"        # Maximized | Fullscreen
+opacity = 0.85                     # transparency
+blur = true                        # KDE/Mac only (needs compositor support)
+
+[font]
+size = 11.0
+offset = { x = 0, y = 1 }          # spacing between chars/lines
+glyph_offset = { x = 0, y = 0 }    # fine-tune glyph alignment
+
+[scrolling]
+history = 10000      # scrollback lines
+multiplier = 3       # scroll speed
+
+[mouse]
+hide_when_typing = true
+
+
+[[keyboard.bindings]]
+key = "Back"
+mods = "Control"
+chars = "\u0017"    # Ctrl+W (delete previous word in bash)
+
+[[keyboard.bindings]]
+key = "Back"
+mods = "Control|Shift"
+chars = "\u0015"    # Ctrl+U (delete entire line in bash)
+
+
+[[keyboard.bindings]]
+key = "Equals"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Control"
+action = "ResetFontSize"
+
+

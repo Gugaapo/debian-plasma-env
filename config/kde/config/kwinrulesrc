@@ -1,0 +1,6 @@
+[1]
+Description=Blur behind Alacritty
+wmclass=alacritty
+blur=true
+bgcontrast=0.9
+bgbrightness=0.8

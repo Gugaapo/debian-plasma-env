@@ -1,0 +1,46 @@
+# Sensitive files
+config/git/.gitconfig
+config/kde/config/*wallet*
+config/kde/config/kdeconnect/
+config/ssh/
+*.pem
+*.key
+*password*
+*secret*
+*credentials*
+
+# Environment-specific
+.env
+.env.*
+
+# Logs
+*.log
+setup.log
+
+# Backups
+.config-backup-*/
+backup-*/
+
+# OS files
+.DS_Store
+Thumbs.db
+.directory
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Git
+*.orig
+
+# Testing artifacts
+tests/*.log
+tests/output/
