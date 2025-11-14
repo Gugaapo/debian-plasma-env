@@ -85,6 +85,7 @@ main() {
     run_module "30-dotfiles"
     run_module "40-kde-config"
     run_module "50-alacritty"
+    run_module "60-claude-code"
     run_module "99-finalize"
 
     # All done!

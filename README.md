@@ -20,12 +20,14 @@ This repository contains everything needed to recreate my complete Debian KDE Pl
 ## Quick Start
 
 ```bash
-git clone https://github.com/yourusername/debian-plasma-env.git
-cd debian-plasma-env
+git clone <your-repo-url> ~/debian-plasma-env
+cd ~/debian-plasma-env
 ./setup.sh
 ```
 
 Then log out and log back in for full effect.
+
+**For detailed instructions, see [QUICK_START.md](QUICK_START.md)**
 
 ## What's Included
 
@@ -34,6 +36,7 @@ Then log out and log back in for full effect.
 - [X] KDE Plasma desktop configuration
 - [X] Bash configuration with oh-my-bash
 - [X] Alacritty terminal emulator
+- [X] Claude Code CLI with custom agents
 - [X] Custom aliases and scripts
 - [X] Global keyboard shortcuts
 - [X] GTK theme integration
@@ -44,6 +47,7 @@ Then log out and log back in for full effect.
 - Gwenview (image viewer)
 - Ark (archive manager)
 - Alacritty (terminal)
+- Claude Code (AI coding assistant with 17 custom agents)
 
 ## Requirements
 
@@ -89,6 +93,10 @@ debian-plasma-env/
 │   ├── alacritty/              # Alacritty terminal config
 │   ├── gtk/                    # GTK theme settings
 │   └── git/                    # Git configuration
+├── claude-code/                # Claude Code setup
+│   ├── agents/                 # 17 custom Claude agents
+│   ├── config/                 # Claude settings
+│   └── docs/                   # Claude documentation
 ├── packages/                   # Package lists
 ├── scripts/                    # Installation modules
 │   ├── modules/                # Modular install scripts

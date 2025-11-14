@@ -241,7 +241,59 @@ if [[ -f "$HOME/.gitconfig" ]]; then
 fi
 
 # ============================================================================
-# 7. Wallpapers
+# 7. Claude Code Configuration
+# ============================================================================
+log_section "Collecting Claude Code Configuration"
+
+if command -v claude &> /dev/null; then
+    claude_version=$(claude --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+' || echo "unknown")
+    log_info "Claude Code detected (version: $claude_version)"
+
+    # Capture agents
+    if [[ -d "$HOME/.claude/agents" ]]; then
+        mkdir -p "$REPO_DIR/claude-code/agents"
+        # Copy all agent files
+        cp -r "$HOME/.claude/agents/"* "$REPO_DIR/claude-code/agents/" 2>/dev/null || true
+        agent_count=$(find "$HOME/.claude/agents" -name "*.md" -type f 2>/dev/null | wc -l)
+        if [[ $agent_count -gt 0 ]]; then
+            log_success "Captured: Claude agents ($agent_count agents)"
+        fi
+    else
+        log_warning "No Claude agents found"
+    fi
+
+    # Capture configuration files
+    mkdir -p "$REPO_DIR/claude-code/config"
+
+    if [[ -f "$HOME/.claude/settings.json" ]]; then
+        cp "$HOME/.claude/settings.json" "$REPO_DIR/claude-code/config/"
+        log_success "Captured: settings.json"
+    fi
+
+    if [[ -f "$HOME/.claude/settings.local.json" ]]; then
+        cp "$HOME/.claude/settings.local.json" "$REPO_DIR/claude-code/config/"
+        log_success "Captured: settings.local.json"
+    fi
+
+    # Capture documentation
+    if [[ -d "$HOME/.claude" ]]; then
+        mkdir -p "$REPO_DIR/claude-code/docs"
+        for doc in README.md QUICK_REFERENCE.md AGENT_DISCOVERY_ALGORITHM.md AGENT_MANAGER_IMPLEMENTATION_GUIDE.md MIGRATION_GUIDE.md; do
+            if [[ -f "$HOME/.claude/$doc" ]]; then
+                cp "$HOME/.claude/$doc" "$REPO_DIR/claude-code/docs/"
+                log_info "  ✓ $doc"
+            fi
+        done
+        log_success "Captured: Claude documentation"
+    fi
+
+    log_warning "Note: Credentials and history are NOT backed up for security"
+else
+    log_info "Claude Code not installed, skipping"
+fi
+
+# ============================================================================
+# 8. Wallpapers
 # ============================================================================
 log_section "Collecting Wallpapers"
 
@@ -266,7 +318,7 @@ else
 fi
 
 # ============================================================================
-# 8. System Information
+# 9. System Information
 # ============================================================================
 log_section "Recording System Information"
 
@@ -291,6 +343,9 @@ Installed Package Managers:
 - apt: $(dpkg --version | head -1)
 $(command -v flatpak &> /dev/null && echo "- flatpak: $(flatpak --version)" || echo "- flatpak: not installed")
 $(command -v snap &> /dev/null && echo "- snap: $(snap version | head -1)" || echo "- snap: not installed")
+
+Claude Code:
+$(command -v claude &> /dev/null && echo "- claude: $(claude --version 2>/dev/null || echo 'installed')" || echo "- claude: not installed")
 EOF
 
 log_success "Created: SYSTEM_INFO.txt"
@@ -312,6 +367,7 @@ echo "  • Alacritty configuration"
 echo "  • KDE Plasma configuration ($kde_captured files)"
 echo "  • GTK theme settings"
 echo "  • Git configuration"
+echo "  • Claude Code (agents & configuration)"
 echo "  • System information"
 echo ""
 echo -e "${YELLOW}Important:${NC}"
