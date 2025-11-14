@@ -80,6 +80,7 @@ main() {
     fi
 
     # Installation modules (executed in order)
+    run_module "05-repositories"
     run_module "10-packages"
     run_module "20-oh-my-bash"
     run_module "30-dotfiles"

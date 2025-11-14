@@ -11,13 +11,24 @@ main_60_claude_code() {
     local install_binary=false
     if ! command -v claude &> /dev/null; then
         log_info "Claude Code not found in PATH"
+
+        # Check if we have agents in the repo (indicates user wants Claude Code)
+        local has_agents=false
+        if [[ -d "$SCRIPT_DIR/claude-code/agents" ]] && [[ -n "$(ls -A "$SCRIPT_DIR/claude-code/agents" 2>/dev/null)" ]]; then
+            has_agents=true
+        fi
+
         if [[ "$INTERACTIVE" == true ]]; then
             if confirm "Install Claude Code CLI?" "y"; then
                 install_binary=true
             fi
+        elif [[ "$has_agents" == true ]]; then
+            # In non-interactive mode, auto-install if we have agents
+            log_info "Claude Code agents found in repository, installing CLI..."
+            install_binary=true
         else
-            log_warning "Claude Code not installed, skipping (non-interactive mode)"
-            log_info "To install Claude Code later, visit: https://docs.claude.com/claude-code"
+            log_info "Skipping Claude Code installation (non-interactive mode)"
+            log_info "To install Claude Code later, visit: https://install.claude.com"
             return 0
         fi
     else
@@ -30,8 +41,20 @@ main_60_claude_code() {
         log_step "Installing Claude Code..."
 
         # Download and install via official installer
-        if ! curl -fsSL https://install.claude.com | bash; then
+        if curl -fsSL https://install.claude.com | bash >> "$LOG_FILE" 2>&1; then
+            # Add to PATH for current session
+            export PATH="$HOME/.local/bin:$PATH"
+
+            # Verify installation
+            if command -v claude &> /dev/null; then
+                local new_version=$(claude --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+' || echo "unknown")
+                log_success "Claude Code $new_version installed successfully"
+            else
+                log_success "Claude Code installed (verify with: source ~/.bashrc)"
+            fi
+        else
             log_error "Failed to install Claude Code"
+            log_error "Check log file for details: $LOG_FILE"
             if [[ "$INTERACTIVE" == true ]]; then
                 if ! confirm "Continue without Claude Code?"; then
                     return 1
@@ -39,11 +62,6 @@ main_60_claude_code() {
             fi
             return 0
         fi
-
-        # Add to PATH for current session
-        export PATH="$HOME/.local/bin:$PATH"
-
-        log_success "Claude Code installed successfully"
     fi
 
     # Restore agents

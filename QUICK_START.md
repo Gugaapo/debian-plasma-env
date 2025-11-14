@@ -74,8 +74,12 @@ cd ~/debian-plasma-env
 # Log out and log back in for KDE changes to take effect
 # Open a new terminal to see bash configuration
 
-# Verify installations
+# Run verification script to check everything
+./scripts/verify-setup.sh
+
+# Or verify manually
 claude --version      # Check Claude Code
+docker --version      # Check Docker
 alacritty --version   # Check Alacritty
 ```
 
